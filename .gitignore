@@ -28,3 +28,6 @@ temp
 *.log
 *.pyc
 *.orig
+
+parsekit.lock
+vault/

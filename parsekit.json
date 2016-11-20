@@ -1,0 +1,14 @@
+{
+	"name": "als/path",
+	"type": "library",
+	"description": "Parser3 Path Component.",
+	"keywords": ["als", "filesystem", "path"],
+	"require": {
+		"parser": ">=3.4.3"
+	},
+	"autoload": {
+		"namespace": {
+			"Als/Path": "src"
+		}
+	}
+}
