@@ -30,13 +30,13 @@ $self.cwd[${self.separator}^env:DOCUMENT_ROOT.trim[both;$self.separator]]
 $result[]
 
 $paths[^hash::create[$paths]]
-$count(^paths.count[] - 1)
+$count(^paths._count[] - 1)
 
 $isAbsolute(false)
 
 ^if($count >= 0){
 	^while($count >= 0){
-		$path[^paths.at($count)[value]]
+		$path[^paths._at($count)]
 		$path[^path.trim[]]
 
 		^self._assert[$path]
@@ -113,7 +113,7 @@ $result[]
 
 $paths[^hash::create[$paths]]
 
-^if(^paths.count[] > 0){
+^if(^paths._count[] > 0){
 	^paths.foreach[_index;_path]{
 		$path[^_path.trim[]]
 
@@ -364,33 +364,35 @@ $path[^path.trim[both;$self.separator]]
 $parts[^path.split[$self.separator;l]]
 $parts[^parts.select(def ^parts.piece.trim[] && ^parts.piece.trim[] ne ".")]
 
-$paths[^table::create{path}]
+$paths[^hash::create[]]
+$i(0)
 
 ^parts.menu{
 	$part[^parts.piece.trim[]]
+    $prev($i-1)
 
 	^if($part eq '..'){
 		^if($isAbsolute){
-			^if(^paths.count[]){
-				^paths.delete[]
+			^if(^paths._count[]){
+				^paths.delete[$prev]
 			}
 		}{
-			^if(^paths.count[]){
+			^if(^paths._count[]){
 				^if($paths.path eq '..'){
-					^paths.append{$part}
+					$paths.$i[$part]
 				}{
-					^paths.delete[]
+                    ^paths.delete[$prev]
 				}
 			}{
-				^paths.append{$part}
+				$paths.$i[$part]
 			}
 		}
 	}{
-		^paths.append{$part}
+		$paths.$i[$part]
 	}
 
-	^paths.offset[set]($paths - 1)
+	^i.inc[]
 }
 
-$result[^paths.menu{$paths.path}[$self.separator]]
+$result[^paths.foreach[key;value]{$value}[$self.separator]]
 #end @_normalize[]
