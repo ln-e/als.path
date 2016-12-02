@@ -375,6 +375,7 @@ $i(0)
 		^if($isAbsolute){
 			^if(^paths._count[]){
 				^paths.delete[$prev]
+				$i($i-2)
 			}
 		}{
 			^if(^paths._count[]){
@@ -382,6 +383,7 @@ $i(0)
 					$paths.$i[$part]
 				}{
                     ^paths.delete[$prev]
+                    $i($i-2)
 				}
 			}{
 				$paths.$i[$part]
